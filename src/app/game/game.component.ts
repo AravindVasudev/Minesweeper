@@ -1,7 +1,9 @@
 import { Component, HostListener } from '@angular/core';
 import { States } from '../states';
 import { Minesweeper } from '../minesweeper';
+
 import { CellState } from '../cellstate';
+import { GameState } from '../gamestate';
 
 import { Global } from '../global';
 
@@ -12,6 +14,7 @@ import { Global } from '../global';
 })
 export class GameComponent {
   CellState: typeof CellState = CellState;
+  GameState: typeof GameState = GameState;
 
   game: Minesweeper = new Minesweeper();
 
@@ -30,9 +33,11 @@ export class GameComponent {
 
   // @HostListener('window:keydown.esc', ['$event'])
   pauseState() {
-    Global.curState = States.PAUSE;
-    this.game.pauseTimer();
-    this.timerInit();
+    if (this.game.gameState === GameState.PLAYING) {
+      Global.curState = States.PAUSE;
+      this.game.pauseTimer();
+      this.timerInit();
+    }
   }
 
   beginState() {

@@ -1,7 +1,11 @@
 <div id="game">
   <button id="pause" class="button" (click)="pauseState()">PAUSE</button>
   <button id="reset" class="button" (click)="beginState()">RESET</button>
-  <span id="bombs">BOMBS: {{ game.remainingFlags }}</span>
+  <span id="bombs" [ngSwitch]="game.gameState">
+    <span *ngSwitchCase="GameState.PLAYING">BOMBS: {{ game.remainingFlags }}</span>
+    <span *ngSwitchCase="GameState.WON">You Won!</span>
+    <span *ngSwitchCase="GameState.LOST">You Lost!</span>
+  </span>
   <span id="time">{{ game.secondsPassed | timePipe }}</span>
   <main>
     <div class="row" *ngFor="let row of game.board; let i = index">
@@ -10,7 +14,8 @@
         'closed': cell.state === CellState.CLOSED,
         'flagged': cell.state === CellState.FLAGGED
       }">
-        <span *ngIf="cell.state === CellState.OPENED">{{ cell.value === 0 ? '' : cell.value }}</span>
+        <span *ngIf="cell.state === CellState.FLAGGED">🚩</span>
+        <span *ngIf="cell.state === CellState.OPENED">{{ cell.value === 0 ? '' : cell.value === -1 ? '💣' : cell.value }}</span>
       </div>
     </div>
   </main>

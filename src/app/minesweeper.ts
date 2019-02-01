@@ -1,13 +1,17 @@
 import { Cell } from './cell';
 import { CellState } from './cellstate';
+import { GameState } from './gamestate';
 
 export class Minesweeper {
     readonly M: number = 24;
     readonly N: number = 30;
-    readonly bombs: number = 2;
+    readonly bombs: number = 99;
+
+    gameState: GameState = GameState.PLAYING;
 
     board: Cell[][] = Minesweeper.getEmptyBoard(this.M, this.N); // M * N board
     remainingFlags = this.bombs;
+    safeCells = (this.M * this.N) - this.bombs;
 
     timer: number;
     secondsPassed: number = 0;
@@ -85,32 +89,46 @@ export class Minesweeper {
     }
 
     reveal(i: number, j: number) {
-        if (this.board[i][j].state === CellState.CLOSED) {
+        if (this.gameState === GameState.PLAYING && this.board[i][j].state === CellState.CLOSED) {
             this.openCell(i, j);
+
+            if (this.safeCells == 0) {
+                this.gameState = GameState.WON;
+                this.pauseTimer();
+            }
         }
     }
 
     flag(i: number, j: number): boolean {
-        switch (this.board[i][j].state) {
-            case CellState.CLOSED:
-                if (this.remainingFlags > 0) {
-                    this.board[i][j].state = CellState.FLAGGED;
-                    this.remainingFlags--;
-                }
-                
-                break;
-            case CellState.FLAGGED:
-                this.board[i][j].state = CellState.CLOSED;
-                this.remainingFlags++;
-                break;
+        if (this.gameState === GameState.PLAYING) {
+            switch (this.board[i][j].state) {
+                case CellState.CLOSED:
+                    if (this.remainingFlags > 0) {
+                        this.board[i][j].state = CellState.FLAGGED;
+                        this.remainingFlags--;
+                    }
+    
+                    break;
+                case CellState.FLAGGED:
+                    this.board[i][j].state = CellState.CLOSED;
+                    this.remainingFlags++;
+                    break;
+            }
         }
 
         return false; // to hide context menu
     }
 
     openCell(x: number, y: number) {
-        if (this.board[x][y].value !== 0) {
+        if (this.board[x][y].value !== Cell.empty) {
             this.board[x][y].state = CellState.OPENED;
+
+            if (this.board[x][y].value === Cell.bomb) {
+                this.gameState = GameState.LOST;
+                this.revealAll();
+            }
+
+            this.safeCells--;
             return;
         }
 
@@ -128,11 +146,20 @@ export class Minesweeper {
                     }
 
                     this.board[next[0]][next[1]].state = CellState.OPENED;
+                    this.safeCells--;
 
                     if (!(i === 0 && j === 0) && this.board[next[0]][next[1]].value === 0) {
                         q.push(next);
                     }
                 }
+            }
+        }
+    }
+
+    revealAll() {
+        for (let i = 0; i < this.M; i++) {
+            for (let j = 0; j < this.N; j++) {
+                this.board[i][j].state = CellState.OPENED;
             }
         }
     }
