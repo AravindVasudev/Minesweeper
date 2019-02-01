@@ -1,4 +1,5 @@
 <div id="app-container" [ngSwitch]="curState">
   <menu *ngSwitchCase="States.BEGIN" (updateState)="updateState($event)"></menu>
+  <menu *ngSwitchCase="States.PAUSE" [isPauseState]="true" (updateState)="updateState($event)"></menu>
   <game *ngSwitchCase="States.GAME" (updateState)="updateState($event)"></game>
 </div>

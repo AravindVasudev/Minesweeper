@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { States } from '../states';
 
 @Component({
@@ -7,6 +7,7 @@ import { States } from '../states';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent {
+  @Input() isPauseState: boolean = false;
   @Output() updateState = new EventEmitter();
 
   constructor() { }
