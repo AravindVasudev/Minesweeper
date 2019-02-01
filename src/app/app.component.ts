@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { States } from './states';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Minesweeper';
+  States: typeof States = States;
+  curState: States = States.BEGIN;
+
+  constructor() { }
+
+  updateState(newState: States) {
+    this.curState = newState;
+  }
 }
