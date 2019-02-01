@@ -2,7 +2,7 @@ import { Cell } from './cell';
 import { CellState } from './cellstate';
 
 export class Minesweeper {
-    readonly M: number = 24 ;
+    readonly M: number = 24;
     readonly N: number = 30;
     readonly bombs: number = 99;
 
@@ -88,6 +88,19 @@ export class Minesweeper {
         if (this.board[i][j].state === CellState.CLOSED) {
             this.openCell(i, j);
         }
+    }
+
+    flag(i: number, j: number): boolean {
+        switch (this.board[i][j].state) {
+            case CellState.CLOSED:
+                this.board[i][j].state = CellState.FLAGGED;
+                break;
+            case CellState.FLAGGED:
+                this.board[i][j].state = CellState.CLOSED;
+                break;
+        }
+
+        return false; // to hide context menu
     }
 
     openCell(x: number, y: number) {

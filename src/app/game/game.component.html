@@ -5,8 +5,12 @@
   <span id="time">{{ game.secondsPassed | timePipe }}</span>
   <main>
     <div class="row" *ngFor="let row of game.board; let i = index">
-      <div class="col" *ngFor="let cell of row; let j = index" (click)="game.reveal(i, j)">
-        <span *ngIf="cell.state === CellState.OPENED">{{ cell.value }}</span>
+      <div class="col" *ngFor="let cell of row; let j = index" (click)="game.reveal(i, j)" (contextmenu)="game.flag(i, j)"
+      [ngClass]="{
+        'closed': cell.state === CellState.CLOSED,
+        'flagged': cell.state === CellState.FLAGGED
+      }">
+        <span *ngIf="cell.state === CellState.OPENED">{{ cell.value === 0 ? '' : cell.value }}</span>
       </div>
     </div>
   </main>
