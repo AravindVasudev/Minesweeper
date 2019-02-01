@@ -1,7 +1,7 @@
 <div id="game">
   <button id="pause" class="button" (click)="pauseState()">PAUSE</button>
   <button id="reset" class="button" (click)="beginState()">RESET</button>
-  <span id="bombs">BOMBS: {{ game.remainingBombs }}</span>
+  <span id="bombs">BOMBS: {{ game.remainingFlags }}</span>
   <span id="time">{{ game.secondsPassed | timePipe }}</span>
   <main>
     <div class="row" *ngFor="let row of game.board; let i = index">

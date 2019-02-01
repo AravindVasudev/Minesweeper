@@ -4,10 +4,10 @@ import { CellState } from './cellstate';
 export class Minesweeper {
     readonly M: number = 24;
     readonly N: number = 30;
-    readonly bombs: number = 99;
+    readonly bombs: number = 2;
 
     board: Cell[][] = Minesweeper.getEmptyBoard(this.M, this.N); // M * N board
-    remainingBombs = this.bombs;
+    remainingFlags = this.bombs;
 
     timer: number;
     secondsPassed: number = 0;
@@ -93,10 +93,15 @@ export class Minesweeper {
     flag(i: number, j: number): boolean {
         switch (this.board[i][j].state) {
             case CellState.CLOSED:
-                this.board[i][j].state = CellState.FLAGGED;
+                if (this.remainingFlags > 0) {
+                    this.board[i][j].state = CellState.FLAGGED;
+                    this.remainingFlags--;
+                }
+                
                 break;
             case CellState.FLAGGED:
                 this.board[i][j].state = CellState.CLOSED;
+                this.remainingFlags++;
                 break;
         }
 
