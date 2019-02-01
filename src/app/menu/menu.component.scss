@@ -3,7 +3,11 @@
     height: 100%;
     width: 100%;
 
-    background: green;
+    // Flex
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 :host {
@@ -14,4 +18,16 @@
     // Size
     height: 100%;
     width: 100%;
+}
+
+#title {
+}
+
+#playButton {
+    height: 6em;
+    width: 100%;
+
+    border: none;
+    background: #cb904d;
+    color: white;
 }
