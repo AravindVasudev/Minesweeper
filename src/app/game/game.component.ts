@@ -15,15 +15,30 @@ export class GameComponent {
 
   game: Minesweeper = new Minesweeper();
 
-  constructor() {}
+  constructor() {
+    this.timerInit();
+  }
+
+  timerInit() { // temporary dumb implementation
+    let interval = window.setInterval(() => {
+      if (Global.curState === States.GAME) {
+        this.game.startTimer();
+        window.clearInterval(interval);
+      }
+    }, 10);
+  }
 
   // @HostListener('window:keydown.esc', ['$event'])
   pauseState() {
     Global.curState = States.PAUSE;
+    this.game.pauseTimer();
+    this.timerInit();
   }
 
   beginState() {
+    this.game = new Minesweeper();
     Global.curState = States.BEGIN;
+    this.timerInit();
   }
 
 }

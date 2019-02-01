@@ -14,7 +14,6 @@ export class Minesweeper {
 
     constructor() {
         this.initializeBoard();
-        this.startTimer();
     }
 
     initializeBoard() {
@@ -24,6 +23,10 @@ export class Minesweeper {
 
     startTimer() {
         this.timer = window.setInterval(() => this.secondsPassed++, 1000);
+    }
+
+    pauseTimer() {
+        clearInterval(this.timer);
     }
 
     fillValue() {
