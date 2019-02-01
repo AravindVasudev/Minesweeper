@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { States } from '../states';
+import { Global } from '../global';
 
 @Component({
   selector: 'menu',
@@ -7,12 +8,12 @@ import { States } from '../states';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent {
-  @Input() isPauseState: boolean = false;
-  @Output() updateState = new EventEmitter();
+  States: typeof States = States;
+  Global: typeof Global = Global;
 
   constructor() { }
 
   playButton() {
-    this.updateState.emit(States.GAME);
+    Global.curState = States.GAME;
   }
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { States } from './states';
+import { Global } from './global';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,8 @@ import { States } from './states';
 })
 export class AppComponent {
   States: typeof States = States;
+  Global: typeof Global = Global;
+  
   curState: States = States.BEGIN;
 
   constructor() { }

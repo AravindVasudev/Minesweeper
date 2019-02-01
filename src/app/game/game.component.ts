@@ -1,7 +1,9 @@
-import { Component, EventEmitter, Output, HostListener } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { States } from '../states';
 import { Minesweeper } from '../minesweeper';
 import { CellState } from '../cellstate';
+
+import { Global } from '../global';
 
 @Component({
   selector: 'game',
@@ -10,19 +12,18 @@ import { CellState } from '../cellstate';
 })
 export class GameComponent {
   CellState: typeof CellState = CellState;
-  @Output() updateState = new EventEmitter();
 
   game: Minesweeper = new Minesweeper();
 
-  constructor() { }
+  constructor() {}
 
-  @HostListener('window:keydown.esc', ['$event'])
-  emitPauseEvent() {
-    this.updateState.emit(States.PAUSE);
+  // @HostListener('window:keydown.esc', ['$event'])
+  pauseState() {
+    Global.curState = States.PAUSE;
   }
 
-  emitBeginEvent() {
-    this.updateState.emit(States.BEGIN);
+  beginState() {
+    Global.curState = States.BEGIN;
   }
 
 }

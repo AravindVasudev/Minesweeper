@@ -1,6 +1,6 @@
 <div id="game">
-  <button id="pause" class="button" (click)="emitPauseEvent()">PAUSE</button>
-  <button id="reset" class="button" (click)="emitBeginEvent()">RESET</button>
+  <button id="pause" class="button" (click)="pauseState()">PAUSE</button>
+  <button id="reset" class="button" (click)="beginState()">RESET</button>
   <span id="bombs">BOMBS: {{ game.remainingBombs }}</span>
   <span id="time">{{ game.secondsPassed | timePipe }}</span>
   <main>
