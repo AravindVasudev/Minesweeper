@@ -1,12 +1,12 @@
 <div id="game">
   <button id="pause" class="button" (click)="emitPauseEvent()">PAUSE</button>
   <button id="reset" class="button" (click)="emitBeginEvent()">RESET</button>
-  <span id="score">SCORE: 0</span>
+  <span id="bombs">BOMBS: {{ game.remainingBombs }}</span>
   <span id="time">4:38</span>
   <main>
     <div class="row" *ngFor="let row of game.board; let i = index">
-      <div class="col" *ngFor="let cell of row; let j = index">
-        {{ cell }}
+      <div class="col" *ngFor="let cell of row; let j = index" (click)="game.reveal(i, j)">
+        <span *ngIf="cell.state === CellState.OPENED">{{ cell.value }}</span>
       </div>
     </div>
   </main>

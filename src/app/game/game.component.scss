@@ -10,7 +10,7 @@
     grid-template-columns: 1fr 1fr 4fr 2fr;
     grid-template-rows: 1fr 8fr;
     grid-template-areas:
-        "pause reset score time"
+        "pause reset bombs time"
         "board board board board";
 }
 
@@ -39,8 +39,8 @@
     height: 100%;
 }
 
-#score {
-    grid-area: score;
+#bombs {
+    grid-area: bombs;
 
     // Flex
     display: flex;
@@ -48,7 +48,7 @@
     align-items: center;
 
     // Font
-    font-size: 5em;
+    font-size: 2em;
 
     background: #dfcc74;
     border-bottom: 0.1em solid #c2b061;

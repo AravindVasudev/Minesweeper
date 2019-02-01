@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output, HostListener } from '@angular/core';
 import { States } from '../states';
 import { Minesweeper } from '../minesweeper';
+import { CellState } from '../cellstate';
 
 @Component({
   selector: 'game',
@@ -8,9 +9,10 @@ import { Minesweeper } from '../minesweeper';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent {
-  game: Minesweeper = new Minesweeper();
-  
+  CellState: typeof CellState = CellState;
   @Output() updateState = new EventEmitter();
+
+  game: Minesweeper = new Minesweeper();
 
   constructor() { }
 
