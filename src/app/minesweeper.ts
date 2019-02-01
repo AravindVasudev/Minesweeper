@@ -2,20 +2,28 @@ import { Cell } from './cell';
 import { CellState } from './cellstate';
 
 export class Minesweeper {
-    readonly M: number = 24;
+    readonly M: number = 24 ;
     readonly N: number = 30;
     readonly bombs: number = 99;
 
     board: Cell[][] = Minesweeper.getEmptyBoard(this.M, this.N); // M * N board
     remainingBombs = this.bombs;
 
+    timer: number;
+    secondsPassed: number = 0;
+
     constructor() {
         this.initializeBoard();
+        this.startTimer();
     }
 
     initializeBoard() {
         this.placeBombs();
         this.fillValue();
+    }
+
+    startTimer() {
+        this.timer = window.setInterval(() => this.secondsPassed++, 1000);
     }
 
     fillValue() {
