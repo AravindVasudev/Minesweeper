@@ -1,4 +1,5 @@
 import { GameComponent } from './game/game.component';
+import { CellState } from './cellstate';
 
 export class Bot {
     active: boolean = false;
@@ -17,10 +18,96 @@ export class Bot {
         }
     }
 
-    move() {
-        let randX = Math.floor(Math.random() * this.gameComponent.game.M);
-        let randY = Math.floor(Math.random() * this.gameComponent.game.N);
+    stop() {
+        if (this.active) {
+            this.play();
+        }
+    }
 
-        this.gameComponent.game.reveal(randX, randY);
+    move() {
+        // let randX = Math.floor(Math.random() * this.gameComponent.game.M);
+        // let randY = Math.floor(Math.random() * this.gameComponent.game.N);
+
+        // this.gameComponent.game.reveal(randX, randY);
+        this.flagCells();
+        this.openFreeNeighbours();
+    }
+
+    flagCells(): number {
+        let modified = 0;
+        for (let i = 0; i < this.gameComponent.game.M; i++) {
+            for (let j = 0; j < this.gameComponent.game.N; j++) {
+                if (this.gameComponent.game.board[i][j].state !== CellState.OPENED) {
+                    continue;
+                }
+
+                let curValue = this.gameComponent.game.board[i][j].value;
+                let unopenedNeighbours: Set<[number, number]> = new Set<[number, number]>();
+                for (let offsetI = -1; offsetI <= 1; offsetI++) {
+                    for (let offsetJ = -1; offsetJ <= 1; offsetJ++) {
+                        let nextI = i + offsetI;
+                        let nextJ = j + offsetJ;
+
+                        if ((i === 0 && j === 0) || nextI < 0 || nextI > this.gameComponent.game.M - 1 || nextJ < 0 ||
+                        nextJ > this.gameComponent.game.N - 1 || this.gameComponent.game.board[nextI][nextJ].state === CellState.OPENED) {
+                                continue;
+                        }
+
+                        unopenedNeighbours.add([nextI, nextJ]);
+                    }
+                }
+
+                if (curValue === unopenedNeighbours.size) {
+                    unopenedNeighbours.forEach(neighbour => {
+                        if (this.gameComponent.game.board[neighbour[0]][neighbour[1]].state === CellState.CLOSED) {
+                            this.gameComponent.game.flag(neighbour[0], neighbour[1]);
+                        }
+                    });
+
+                    modified += curValue;
+                }
+            }
+        }
+
+        return modified;
+    }
+
+    openFreeNeighbours(): number {
+        let modified = 0;
+        for (let i = 0; i < this.gameComponent.game.M; i++) {
+            for (let j = 0; j < this.gameComponent.game.N; j++) {
+                if (this.gameComponent.game.board[i][j].state !== CellState.OPENED) {
+                    continue;
+                }
+
+                let curValue = this.gameComponent.game.board[i][j].value;
+                let flagged = 0;
+                let closedNeighbours: Set<[number, number]> = new Set<[number, number]>();
+                for (let offsetI = -1; offsetI <= 1; offsetI++) {
+                    for (let offsetJ = -1; offsetJ <= 1; offsetJ++) {
+                        let nextI = i + offsetI;
+                        let nextJ = j + offsetJ;
+
+                        if ((i === 0 && j === 0) || nextI < 0 || nextI > this.gameComponent.game.M - 1 || nextJ < 0 ||
+                        nextJ > this.gameComponent.game.N - 1 || this.gameComponent.game.board[nextI][nextJ].state === CellState.OPENED) {
+                                continue;
+                        }
+
+                        if (this.gameComponent.game.board[nextI][nextJ].state === CellState.FLAGGED) {
+                            flagged++;
+                        } else {
+                            closedNeighbours.add([nextI, nextJ]);
+                        }
+                    }
+                }
+
+                if (curValue === flagged) {
+                    closedNeighbours.forEach(neighbour => this.gameComponent.game.reveal(neighbour[0], neighbour[1]));
+                    modified += closedNeighbours.size;
+                }
+            }
+        }
+
+        return modified;
     }
 }
