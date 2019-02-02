@@ -126,6 +126,7 @@ export class Minesweeper {
             if (this.board[x][y].value === Cell.bomb) {
                 this.gameState = GameState.LOST;
                 this.revealAll();
+                this.pauseTimer();
             }
 
             this.safeCells--;
