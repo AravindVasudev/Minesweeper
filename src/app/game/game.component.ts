@@ -1,11 +1,12 @@
-import { Component, HostListener } from '@angular/core';
-import { States } from '../states';
-import { Minesweeper } from '../minesweeper';
+import { Component } from '@angular/core';
 
+import { States } from '../states';
 import { CellState } from '../cellstate';
 import { GameState } from '../gamestate';
-
 import { Global } from '../global';
+
+import { Minesweeper } from '../minesweeper';
+import { Bot } from '../bot';
 
 @Component({
   selector: 'game',
@@ -17,6 +18,7 @@ export class GameComponent {
   GameState: typeof GameState = GameState;
 
   game: Minesweeper = new Minesweeper();
+  bot: Bot = new Bot(this);
 
   constructor() {
     this.timerInit();

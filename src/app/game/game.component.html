@@ -6,6 +6,7 @@
     <span *ngSwitchCase="GameState.WON">You Won!</span>
     <span *ngSwitchCase="GameState.LOST">You Lost!</span>
   </span>
+  <button id="bot" class="button" (click)="bot.play()" [ngClass]="{'button-active': bot.active}">BOT</button>
   <span id="time">{{ game.secondsPassed | timePipe }}</span>
   <main>
     <div class="row" *ngFor="let row of game.board; let i = index">

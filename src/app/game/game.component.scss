@@ -7,11 +7,11 @@
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 
     display: grid;
-    grid-template-columns: 1fr 1fr 4fr 2fr;
+    grid-template-columns: 1fr 1fr 4fr 1fr 1fr;
     grid-template-rows: 1fr 8fr;
     grid-template-areas:
-        "pause reset bombs time"
-        "board board board board";
+        "pause reset bombs bot time"
+        "board board board board board";
 }
 
 :host {
@@ -67,6 +67,12 @@
 
     background: #CB904D;
     border-bottom: 0.1em solid #A2733D;
+}
+
+#bot {
+    grid-area: bot;
+
+    height: 100%;
 }
 
 main {
