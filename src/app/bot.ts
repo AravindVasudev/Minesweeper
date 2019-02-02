@@ -25,12 +25,36 @@ export class Bot {
     }
 
     move() {
-        // let randX = Math.floor(Math.random() * this.gameComponent.game.M);
-        // let randY = Math.floor(Math.random() * this.gameComponent.game.N);
+        let modified = 0;
+        modified += this.flagCells();
+        modified += this.openFreeNeighbours();
 
-        // this.gameComponent.game.reveal(randX, randY);
-        this.flagCells();
-        this.openFreeNeighbours();
+        if (modified === 0) {
+            this.makeRandomMove();
+        }
+    }
+
+    makeRandomMove() {
+        let cells: [number, number][] = this.getClosedCells();
+        if (cells.length === 0) {
+            return;
+        }
+
+        let move = Math.floor(Math.random() * (cells.length - 1));
+        this.gameComponent.game.reveal(cells[move][0], cells[move][1]);
+    }
+
+    getClosedCells(): [number, number][] {
+        let cells: [number, number][] = [];
+        for (let i = 0; i < this.gameComponent.game.M; i++) {
+            for (let j = 0; j < this.gameComponent.game.N; j++) {
+                if (this.gameComponent.game.board[i][j].state === CellState.CLOSED) {
+                    cells.push([i, j]);
+                }
+            }
+        }
+
+        return cells;
     }
 
     flagCells(): number {
