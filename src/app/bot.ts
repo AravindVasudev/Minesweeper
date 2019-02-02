@@ -85,10 +85,9 @@ export class Bot {
                     unopenedNeighbours.forEach(neighbour => {
                         if (this.gameComponent.game.board[neighbour[0]][neighbour[1]].state === CellState.CLOSED) {
                             this.gameComponent.game.flag(neighbour[0], neighbour[1]);
+                            modified++;
                         }
                     });
-
-                    modified += curValue;
                 }
             }
         }
