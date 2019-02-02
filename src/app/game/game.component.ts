@@ -39,6 +39,7 @@ export class GameComponent {
       Global.curState = States.PAUSE;
       this.game.pauseTimer();
       this.timerInit();
+      this.bot.play();
     }
   }
 
@@ -46,6 +47,7 @@ export class GameComponent {
     this.game = new Minesweeper();
     Global.curState = States.BEGIN;
     this.timerInit();
+    this.bot.play();
   }
 
 }
