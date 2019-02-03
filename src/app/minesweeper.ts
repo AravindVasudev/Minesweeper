@@ -89,7 +89,6 @@ export class Minesweeper {
     }
 
     reveal(i: number, j: number) {
-        console.log(this.board[i][j])
         if (this.gameState === GameState.PLAYING && this.board[i][j].state === CellState.CLOSED) {
             this.openCell(i, j);
 
