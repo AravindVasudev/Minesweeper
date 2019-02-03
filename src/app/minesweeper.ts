@@ -45,7 +45,7 @@ export class Minesweeper {
                         let nextI = i + offsetI;
                         let nextJ = j + offsetJ;
 
-                        if ((i === 0 && j === 0) || nextI < 0 || nextI > this.M - 1 || nextJ < 0 || nextJ > this.N - 1 ||
+                        if ((offsetI === 0 && offsetJ === 0) || nextI < 0 || nextI > this.M - 1 || nextJ < 0 || nextJ > this.N - 1 ||
                             this.board[nextI][nextJ].value !== Cell.bomb) {
                                 continue;
                         }
@@ -89,6 +89,7 @@ export class Minesweeper {
     }
 
     reveal(i: number, j: number) {
+        console.log(this.board[i][j])
         if (this.gameState === GameState.PLAYING && this.board[i][j].state === CellState.CLOSED) {
             this.openCell(i, j);
 
@@ -142,7 +143,7 @@ export class Minesweeper {
                 for (let j = -1; j <= 1; j++) {
                     let next: [number, number] = [cur[0] + i, cur[1] + j];
                     if (next[0] < 0 || next[0] > this.M - 1 || next[1] < 0 || next[1] > this.N - 1 ||
-                        this.board[next[0]][next[1]].state !== CellState.CLOSED) {
+                        this.board[next[0]][next[1]].state !== CellState.CLOSED ) {
                              continue;
                     }
 
