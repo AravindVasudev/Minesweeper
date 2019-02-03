@@ -109,3 +109,11 @@ main {
 .flagged {
     background: #155870;
 }
+
+@media (max-width:700px) {
+    #game {
+        // Size
+        height: 100%;
+        width: 100%;
+    }
+}
