@@ -17,11 +17,18 @@ export class GameComponent {
   CellState: typeof CellState = CellState;
   GameState: typeof GameState = GameState;
 
-  game: Minesweeper = new Minesweeper();
+  game: Minesweeper;
   bot: Bot = new Bot(this);
 
   constructor() {
     this.timerInit();
+
+    this.game = GameComponent.initGame();
+  }
+
+  static initGame(): Minesweeper {
+    // Create a smaller board for mobile
+    return window.innerWidth < 700 ? new Minesweeper(9, 9, 10) : new Minesweeper(24, 30, 99);
   }
 
   timerInit() { // temporary dumb implementation
@@ -44,7 +51,7 @@ export class GameComponent {
   }
 
   beginState() {
-    this.game = new Minesweeper();
+    this.game = GameComponent.initGame();
     Global.curState = States.BEGIN;
     this.timerInit();
     this.bot.stop();

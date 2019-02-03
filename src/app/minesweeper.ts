@@ -3,10 +3,6 @@ import { CellState } from './cellstate';
 import { GameState } from './gamestate';
 
 export class Minesweeper {
-    readonly M: number = 24;
-    readonly N: number = 30;
-    readonly bombs: number = 99;
-
     gameState: GameState = GameState.PLAYING;
 
     board: Cell[][] = Minesweeper.getEmptyBoard(this.M, this.N); // M * N board
@@ -16,7 +12,7 @@ export class Minesweeper {
     timer: number;
     secondsPassed: number = 0;
 
-    constructor() {
+    constructor(public M = 24, public N = 30, public bombs = 99) {
         this.initializeBoard();
     }
 
